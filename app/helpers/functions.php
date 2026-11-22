@@ -33,3 +33,29 @@ function csrf_valid(): bool {
     return isset($_POST['csrf'], $_SESSION['csrf'])
         && hash_equals($_SESSION['csrf'], $_POST['csrf']);
 }
+
+function userLogin(): ?array {
+    return $_SESSION['user'] ?? null;
+}
+
+function urlDashboard(string $role): string {
+    $peta = [
+        'peserta'   => 'index.php?c=peserta&a=dashboard',
+        'admin'     => 'index.php?c=admin&a=dashboard',
+        'bendahara' => 'index.php?c=bendahara&a=dashboard',
+        'ketua'     => 'index.php?c=ketua&a=dashboard',
+    ];
+    return $peta[$role] ?? 'index.php?c=auth&a=login';
+}
+
+function wajibRole(string $role): void {
+    $u = userLogin();
+    if (!$u) {
+        flash('Silakan login terlebih dahulu.', 'err');
+        redirect('index.php?c=auth&a=login');
+    }
+    if ($u['role'] !== $role) {
+        flash('Anda tidak berhak membuka halaman itu.', 'err');
+        redirect(urlDashboard($u['role']));
+    }
+}
