@@ -12,9 +12,12 @@ $peta = [
     'pendaftaran'       => 'PendaftaranController',
     'dokumen'           => 'DokumenController',
     'pembayaran'        => 'PembayaranController',
-    'petugas'           => 'PetugasController',
-    'petugaspendaftar'  => 'PetugasPendaftarController',
-    'petugasverifikasi' => 'PetugasVerifikasiController',
+    'pengajuansumpah'   => 'PengajuanSumpahController',
+    'admin'             => 'AdminController',
+    'adminpendaftaran'  => 'AdminPendaftaranController',
+    'adminsumpah'       => 'AdminSumpahController',
+    'bendahara'         => 'BendaharaController',
+    'ketua'             => 'KetuaController',
 ];
 
 if (!isset($peta[$c])) {
