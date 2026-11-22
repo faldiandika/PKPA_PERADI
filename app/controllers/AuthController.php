@@ -73,7 +73,6 @@ class AuthController extends Controller {
     }
 
     private function keBeranda(string $role): void {
-        // Sementara: dashboard tiap role belum dibuat
-        exit('Login berhasil sebagai ' . e($role) . '. Dashboard menyusul. <a href="index.php?c=auth&a=logout">Logout</a>');
+        redirect(urlDashboard($role));
     }
 }

@@ -35,7 +35,14 @@ function csrf_valid(): bool {
 }
 
 function userLogin(): ?array {
-    return $_SESSION['user'] ?? null;
+    if (empty($_SESSION['user_id'])) {
+        return null;
+    }
+    return [
+        'id_user' => $_SESSION['user_id'],
+        'nama'    => $_SESSION['nama'] ?? '',
+        'role'    => $_SESSION['role'] ?? '',
+    ];
 }
 
 function urlDashboard(string $role): string {
