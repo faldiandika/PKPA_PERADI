@@ -4,6 +4,43 @@ require_once __DIR__ . '/../models/User.php';
 
 class AuthController extends Controller {
 
+    public function registrasi(): void {
+        if (!empty($_SESSION['user_id'])) {
+            $this->keBeranda($_SESSION['role']);
+        }
+
+        $error = '';
+        $nama  = '';
+        $email = '';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nama      = trim($_POST['nama'] ?? '');
+            $email     = trim($_POST['email'] ?? '');
+            $password  = $_POST['password'] ?? '';
+            $konfirmasi = $_POST['konfirmasi'] ?? '';
+
+            if (!csrf_valid()) {
+                $error = 'Sesi tidak valid, coba lagi.';
+            } elseif ($nama === '') {
+                $error = 'Nama wajib diisi.';
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $error = 'Format email tidak valid.';
+            } elseif (strlen($password) < 6) {
+                $error = 'Password minimal 6 karakter.';
+            } elseif ($password !== $konfirmasi) {
+                $error = 'Konfirmasi password tidak sama.';
+            } elseif (User::findByEmail($email)) {
+                $error = 'Email sudah terdaftar.';
+            } else {
+                User::createPeserta($nama, $email, $password);
+                flash('Registrasi berhasil. Silakan login.');
+                redirect('index.php?c=auth&a=login');
+            }
+        }
+
+        require __DIR__ . '/../views/auth/registrasi.php';
+    }
+
     public function login(): void {
         if (!empty($_SESSION['user_id'])) {
             $this->keBeranda($_SESSION['role']);
