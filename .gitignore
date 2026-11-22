@@ -1,0 +1,5 @@
+public/uploads/*
+!public/uploads/.gitkeep
+.vscode/
+Thumbs.db
+.DS_Store
