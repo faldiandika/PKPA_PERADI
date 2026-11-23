@@ -1,22 +1,32 @@
-<h2>Detail Pendaftaran</h2>
-<p><a href="index.php?c=adminpendaftaran&a=index">&laquo; Kembali</a></p>
-
-<div class="kartu">
-    <h3>Biodata</h3>
-    <p>Nama: <?= e($pd['nama_lengkap']) ?></p>
-    <p>NIK: <?= e($pd['nik']) ?></p>
-    <p>Tempat/tgl lahir: <?= e($pd['tempat_lahir']) ?>, <?= e($pd['tanggal_lahir']) ?></p>
-    <p>Alamat: <?= e($pd['alamat']) ?></p>
-    <p>Telepon: <?= e($pd['no_telepon']) ?> | Email: <?= e($pd['email']) ?></p>
-    <p>Perguruan tinggi: <?= e($pd['perguruan_tinggi']) ?> (ijazah <?= e($pd['nomor_ijazah']) ?>)</p>
-    <?php if (!empty($pd['pas_foto'])): ?>
-        <img class="pas-foto" src="public/uploads/pas_foto/<?= e($pd['pas_foto']) ?>" alt="Pas foto" width="100">
-    <?php endif; ?>
+<div class="halaman-judul">
+    <h2>Detail Pendaftaran</h2>
+    <a class="btn btn-garis btn-kecil" href="index.php?c=adminpendaftaran&a=index">&laquo; Kembali</a>
 </div>
 
 <div class="kartu">
-    <h3>Status pendaftaran: <?= badge($pd['status_pendaftaran']) ?></h3>
-    <form method="post" action="index.php?c=adminpendaftaran&a=status" class="form-biodata">
+    <h3>Biodata</h3>
+    <div class="biodata-wrap">
+        <div class="biodata-grid">
+            <div><span>Nama lengkap</span><strong><?= e($pd['nama_lengkap']) ?></strong></div>
+            <div><span>NIK</span><strong><?= e($pd['nik']) ?></strong></div>
+            <div><span>Tempat, tanggal lahir</span><strong><?= e($pd['tempat_lahir']) ?>, <?= e($pd['tanggal_lahir']) ?></strong></div>
+            <div><span>Telepon</span><strong><?= e($pd['no_telepon']) ?></strong></div>
+            <div><span>Email</span><strong><?= e($pd['email']) ?></strong></div>
+            <div><span>Perguruan tinggi</span><strong><?= e($pd['perguruan_tinggi']) ?></strong></div>
+            <div><span>Nomor ijazah</span><strong><?= e($pd['nomor_ijazah']) ?></strong></div>
+            <div class="penuh"><span>Alamat</span><strong><?= e($pd['alamat']) ?></strong></div>
+        </div>
+        <?php if (!empty($pd['pas_foto'])): ?>
+            <img class="pas-foto" src="public/uploads/pas_foto/<?= e($pd['pas_foto']) ?>" alt="Pas foto" width="110">
+        <?php endif; ?>
+    </div>
+</div>
+
+<div class="kartu">
+    <div class="info-peserta">
+        <div><span>Status pendaftaran</span><?= badge($pd['status_pendaftaran']) ?></div>
+    </div>
+    <form method="post" action="index.php?c=adminpendaftaran&a=status" class="form-biodata form-lebar">
         <?= csrf_field() ?>
         <input type="hidden" name="id" value="<?= (int)$pd['id_pendaftaran'] ?>">
         <label>Ubah status</label>
@@ -31,12 +41,12 @@
     </form>
 </div>
 
-<h3>Dokumen</h3>
+<h3 class="sub-judul">Dokumen</h3>
 <table class="tabel">
     <tr><th>Jenis</th><th>File</th><th>Status</th><th>Catatan</th><th>Ubah</th></tr>
     <?php foreach ($dokumen as $x): $st = $statusCol ? ($x[$statusCol] ?? '') : ''; ?>
     <tr>
-        <td><?= e($x['jenis_dokumen']) ?></td>
+        <td><strong><?= e($x['jenis_dokumen']) ?></strong></td>
         <td><a href="public/<?= e($x['file_path']) ?>" target="_blank"><?= e($x['nama_file']) ?></a></td>
         <td><?= badge($st) ?></td>
         <td><?= e($x['catatan'] ?? '') ?></td>
@@ -58,5 +68,5 @@
         </td>
     </tr>
     <?php endforeach; ?>
-    <?php if (!$dokumen): ?><tr><td colspan="5">Belum ada dokumen.</td></tr><?php endif; ?>
+    <?php if (!$dokumen): ?><tr><td colspan="5" class="kosong-baris">Belum ada dokumen.</td></tr><?php endif; ?>
 </table>

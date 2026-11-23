@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__ . '/AdminBaseController.php';
 require_once __DIR__ . '/../models/Ref.php';
@@ -6,33 +7,49 @@ require_once __DIR__ . '/../models/DokumenSumpah.php';
 require_once __DIR__ . '/../models/JadwalSumpah.php';
 
 class AdminSumpahController extends AdminBaseController {
+
     private function opsiPengajuan(): array {
-        return Ref::opsi('pengajuan_sumpah', 'status_pemberkasan', ['menunggu', 'lengkap', 'ditolak']);
+        return Ref::opsi(
+            'pengajuan_sumpah',
+            'status_pemberkasan',
+            ['menunggu', 'diperiksa', 'perbaikan', 'dikirim', 'diterima', 'ditolak']
+        );
     }
+
     private function opsiDokumen(): array {
         $c = Ref::statusCol('dokumen_sumpah');
-        return $c ? Ref::opsi('dokumen_sumpah', $c, ['menunggu', 'valid', 'ditolak']) : [];
+
+        return $c
+            ? Ref::opsi('dokumen_sumpah', $c, ['menunggu', 'lengkap', 'revisi', 'ditolak'])
+            : [];
     }
+
     private function mulaiPost(int $id): string {
         $back = 'index.php?c=adminsumpah&a=detail&id=' . $id;
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !csrf_valid()) {
             flash('Sesi tidak valid.', 'err');
             redirect($back);
         }
+
         return $back;
     }
 
     public function index(): void {
-        $this->renderAdmin('sumpah', ['daftar' => PengajuanSumpah::semua()]);
+        $this->renderAdmin('sumpah', [
+            'daftar' => PengajuanSumpah::semua()
+        ]);
     }
 
     public function detail(): void {
         $id = (int)($_GET['id'] ?? 0);
         $s = PengajuanSumpah::find($id);
+
         if (!$s) {
             flash('Data tidak ditemukan.', 'err');
             redirect('index.php?c=adminsumpah&a=index');
         }
+
         $this->renderAdmin('sumpah_detail', [
             's' => $s,
             'dokumen' => DokumenSumpah::byPengajuan($id),
@@ -47,11 +64,18 @@ class AdminSumpahController extends AdminBaseController {
         $id = (int)($_POST['id'] ?? 0);
         $back = $this->mulaiPost($id);
         $st = $_POST['status'] ?? '';
+
         if (!in_array($st, $this->opsiPengajuan(), true)) {
             flash('Status tidak valid.', 'err');
             redirect($back);
         }
-        PengajuanSumpah::setStatus($id, $st, trim($_POST['catatan'] ?? ''));
+
+        PengajuanSumpah::setStatus(
+            $id,
+            $st,
+            trim($_POST['catatan'] ?? '')
+        );
+
         flash('Status pemberkasan diperbarui.');
         redirect($back);
     }
@@ -60,11 +84,17 @@ class AdminSumpahController extends AdminBaseController {
         $id = (int)($_POST['id'] ?? 0);
         $back = $this->mulaiPost($id);
         $st = $_POST['status'] ?? '';
+
         if (!in_array($st, $this->opsiDokumen(), true)) {
             flash('Status tidak valid.', 'err');
             redirect($back);
         }
-        DokumenSumpah::setStatus((int)($_POST['id_dokumen_sumpah'] ?? 0), $st);
+
+        DokumenSumpah::setStatus(
+            (int)($_POST['id_dokumen_sumpah'] ?? 0),
+            $st
+        );
+
         flash('Status berkas diperbarui.');
         redirect($back);
     }
@@ -72,15 +102,34 @@ class AdminSumpahController extends AdminBaseController {
     public function jadwal(): void {
         $id = (int)($_POST['id'] ?? 0);
         $back = $this->mulaiPost($id);
+
         $tgl = trim($_POST['tanggal'] ?? '');
         $wkt = trim($_POST['waktu'] ?? '');
         $tmp = trim($_POST['tempat'] ?? '');
-        $d = DateTime::createFromFormat('Y-m-d', $tgl);
-        if (!$d || $d->format('Y-m-d') !== $tgl || $wkt === '' || $tmp === '') {
-            flash('Tanggal, waktu, dan tempat wajib diisi dengan benar.', 'err');
+
+        // Validasi dan konversi DD-MM-YYYY ke YYYY-MM-DD
+        $d = DateTime::createFromFormat('!d-m-Y', $tgl);
+
+        if (
+            !$d ||
+            $d->format('d-m-Y') !== $tgl ||
+            $wkt === '' ||
+            $tmp === ''
+        ) {
+            flash('Tanggal, waktu, dan tempat wajib diisi dengan benar. Gunakan format DD-MM-YYYY.', 'err');
             redirect($back);
         }
-        JadwalSumpah::simpan($id, $tgl, $wkt, $tmp, trim($_POST['keterangan'] ?? ''));
+
+        $tglDatabase = $d->format('Y-m-d');
+
+        JadwalSumpah::simpan(
+            $id,
+            $tglDatabase,
+            $wkt,
+            $tmp,
+            trim($_POST['keterangan'] ?? '')
+        );
+
         flash('Jadwal sumpah disimpan.');
         redirect($back);
     }

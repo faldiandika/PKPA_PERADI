@@ -1,10 +1,16 @@
-<h2>Pemeriksaan Berkas Sumpah</h2>
-<p><a href="index.php?c=adminsumpah&a=index">&laquo; Kembali</a></p>
+
+<div class="halaman-judul">
+    <h2>Pemeriksaan Berkas Sumpah</h2>
+    <a class="btn btn-garis btn-kecil" href="index.php?c=adminsumpah&a=index">&laquo; Kembali</a>
+</div>
 
 <div class="kartu">
-    <p>Peserta: <strong><?= e($s['nama_lengkap']) ?></strong> (NIK <?= e($s['nik']) ?>)</p>
-    <p>Status pemberkasan: <strong><?= badge($s['status_pemberkasan']) ?></strong></p>
-    <form method="post" action="index.php?c=adminsumpah&a=status" class="form-biodata">
+    <div class="info-peserta">
+        <div><span>Peserta</span><strong><?= e($s['nama_lengkap']) ?></strong></div>
+        <div><span>NIK</span><strong><?= e($s['nik']) ?></strong></div>
+        <div><span>Status pemberkasan</span><?= badge($s['status_pemberkasan']) ?></div>
+    </div>
+    <form method="post" action="index.php?c=adminsumpah&a=status" class="form-biodata form-lebar">
         <?= csrf_field() ?>
         <input type="hidden" name="id" value="<?= (int)$s['id_pengajuan_sumpah'] ?>">
         <label>Ubah status</label>
@@ -19,12 +25,12 @@
     </form>
 </div>
 
-<h3>Berkas</h3>
+<h3 class="sub-judul">Berkas</h3>
 <table class="tabel">
     <tr><th>Jenis</th><th>File</th><th>Status</th><th>Ubah</th></tr>
     <?php foreach ($dokumen as $x): $st = $statusCol ? ($x[$statusCol] ?? '') : ''; ?>
     <tr>
-        <td><?= e($x['jenis_dokumen']) ?></td>
+        <td><strong><?= e($x['jenis_dokumen']) ?></strong></td>
         <td><a href="public/<?= e($x['file_path']) ?>" target="_blank"><?= e($x['nama_file']) ?></a></td>
         <td><?= badge($st) ?></td>
         <td>
@@ -44,22 +50,34 @@
         </td>
     </tr>
     <?php endforeach; ?>
-    <?php if (!$dokumen): ?><tr><td colspan="4">Belum ada berkas.</td></tr><?php endif; ?>
+    <?php if (!$dokumen): ?>
+        <tr><td colspan="4" class="kosong-baris">Belum ada berkas.</td></tr>
+    <?php endif; ?>
 </table>
 
-<h3>Jadwal sumpah</h3>
+<h3 class="sub-judul">Jadwal sumpah</h3>
 <div class="kartu">
-    <form method="post" action="index.php?c=adminsumpah&a=jadwal" class="form-biodata">
+    <form method="post" action="index.php?c=adminsumpah&a=jadwal" class="form-biodata form-lebar">
         <?= csrf_field() ?>
         <input type="hidden" name="id" value="<?= (int)$s['id_pengajuan_sumpah'] ?>">
-        <label>Tanggal</label>
-        <input type="date" name="tanggal" value="<?= e($jadwal['tanggal_sumpah'] ?? '') ?>" required>
+
+        <label>Tanggal (DD-MM-YYYY)</label>
+        <input type="text" name="tanggal"
+            value="<?= !empty($jadwal['tanggal_sumpah']) ? date('d-m-Y', strtotime($jadwal['tanggal_sumpah'])) : '' ?>"
+            placeholder="Contoh: 24-11-2026"
+            pattern="\d{2}-\d{2}-\d{4}"
+            title="Gunakan format tanggal DD-MM-YYYY"
+            required>
+
         <label>Waktu</label>
         <input type="time" name="waktu" value="<?= e(isset($jadwal['waktu_sumpah']) ? substr($jadwal['waktu_sumpah'], 0, 5) : '') ?>" required>
+
         <label>Tempat</label>
         <input type="text" name="tempat" value="<?= e($jadwal['tempat_sumpah'] ?? '') ?>" required>
+
         <label>Keterangan</label>
         <textarea name="keterangan" rows="2"><?= e($jadwal['keterangan'] ?? '') ?></textarea>
+
         <button type="submit">Simpan jadwal</button>
     </form>
 </div>

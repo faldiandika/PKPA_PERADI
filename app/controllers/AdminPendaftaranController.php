@@ -68,7 +68,7 @@ class AdminPendaftaranController extends AdminBaseController {
         }
         Pendaftaran::setStatus($id, $s, trim($_POST['catatan'] ?? ''), (int)userLogin()['id_user']);
         flash('Status pendaftaran diperbarui.');
-        redirect($back);
+        redirect('index.php?c=admin&a=dashboard');
     }
 
     public function dokumen(): void {

@@ -1,3 +1,6 @@
+<?php
+$aksiAktif = $_GET['a'] ?? 'dashboard';
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,8 +10,12 @@
     <link rel="stylesheet" href="public/css/style.css?v=<?= filemtime(__DIR__ . '/../../../../public/css/style.css') ?>"></head>
 <body>
 <nav class="menu">
-<a href="index.php" class="brand"><img class="logo" src="public/img/" alt="PERADI" onerror="this.style.display='none'"></a>    <a href="index.php?c=bendahara&a=dashboard">Dashboard</a>
-    <a href="index.php?c=bendahara&a=pembayaran">Pembayaran</a>
+    <a href="index.php" class="brand">
+        <img class="logo" src="public/img/logo-peradi.png" alt="PERADI" onerror="this.style.display='none'">
+        <span class="brand-teks">PKPA Online <small>Bendahara</small></span>
+    </a>
+    <a href="index.php?c=bendahara&a=dashboard" class="<?= $aksiAktif === 'dashboard' ? 'aktif' : '' ?>">Beranda</a>
+    <a href="index.php?c=bendahara&a=pembayaran" class="<?= $aksiAktif === 'pembayaran' ? 'aktif' : '' ?>">Pembayaran</a>
     <a class="keluar" href="index.php?c=auth&a=logout">Logout</a>
 </nav>
 <main class="konten">

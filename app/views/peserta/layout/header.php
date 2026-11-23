@@ -1,3 +1,12 @@
+<?php
+$ctrlAktif = $_GET['c'] ?? '';
+$aksiAktif = $_GET['a'] ?? '';
+$menuAktif = function (string $c, ?string $a = null) use ($ctrlAktif, $aksiAktif) {
+    if ($ctrlAktif !== $c) return '';
+    return ($a === null || $aksiAktif === $a) ? 'aktif' : '';
+};
+$dashAktif = ($ctrlAktif === 'peserta' && $aksiAktif !== 'biodata') ? 'aktif' : '';
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,11 +16,16 @@
     <link rel="stylesheet" href="public/css/style.css?v=<?= filemtime(__DIR__ . '/../../../../public/css/style.css') ?>"></head>
 <body>
 <nav class="menu">
-    <a href="index.php" class="brand"><img class="logo" src="public/img/" alt="PERADI" onerror="this.style.display='none'"></a>    <a href="index.php?c=peserta&a=biodata">Biodata</a>
-    <a href="index.php?c=pendaftaran&a=index">Pendaftaran</a>
-    <a href="index.php?c=dokumen&a=index">Dokumen</a>
-    <a href="index.php?c=pembayaran&a=index">Pembayaran</a>
-    <a href="index.php?c=pengajuansumpah&a=index">Sumpah</a>
+    <a href="index.php" class="brand">
+        <img class="logo" src="public/img/logo-peradi.png" alt="PERADI" onerror="this.style.display='none'">
+        <span class="brand-teks">PKPA Online <small>Peserta</small></span>
+    </a>
+    <a href="index.php?c=peserta&a=dashboard" class="<?= $dashAktif ?>">Beranda</a>
+    <a href="index.php?c=peserta&a=biodata" class="<?= $menuAktif('peserta', 'biodata') ?>">Biodata</a>
+    <a href="index.php?c=pendaftaran&a=index" class="<?= $menuAktif('pendaftaran') ?>">Daftar PKPA</a>
+    <a href="index.php?c=dokumen&a=index" class="<?= $menuAktif('dokumen') ?>">Dokumen</a>
+    <a href="index.php?c=pembayaran&a=index" class="<?= $menuAktif('pembayaran') ?>">Pembayaran</a>
+    <a href="index.php?c=pengajuansumpah&a=index" class="<?= $menuAktif('pengajuansumpah') ?>">Pengajuan Sumpah</a>
     <a class="keluar" href="index.php?c=auth&a=logout">Logout</a>
 </nav>
 <main class="konten">

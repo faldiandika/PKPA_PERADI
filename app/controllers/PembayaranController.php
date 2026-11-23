@@ -3,10 +3,24 @@ require_once __DIR__ . '/PesertaBaseController.php';
 require_once __DIR__ . '/../models/Pembayaran.php';
 
 class PembayaranController extends PesertaBaseController {
-    private const JUMLAH = 250000;
-    private const METODE = ['Transfer Bank', 'Tunai'];
-    // GANTI dengan data rekening resmi DPC (dikonfirmasi ke narasumber).
-    private const REKENING = 'Bank ........ No. Rek ........ a.n. DPC PERADI Kota Palu';
+    private const METODE = ['Transfer Bank'];
+
+    private static function config(): array {
+        static $cfg = null;
+        if ($cfg === null) {
+            $cfg = require __DIR__ . '/../../config/rekening.php';
+        }
+        return $cfg;
+    }
+
+    private static function jumlah(): int {
+        return (int)self::config()['biaya'];
+    }
+
+    private static function rekening(): string {
+        $c = self::config();
+        return $c['bank'] . ' No. Rek ' . $c['nomor'] . ' a.n. ' . $c['atas_nama'];
+    }
 
     private static function sudahAda(array $daftar): bool {
         foreach ($daftar as $b) {
@@ -20,9 +34,9 @@ class PembayaranController extends PesertaBaseController {
         $daftar = Pembayaran::byPendaftaran((int)$d['id_pendaftaran']);
         $this->renderPeserta('pembayaran', [
             'pembayaran' => $daftar,
-            'jumlah'     => self::JUMLAH,
+            'jumlah'     => self::jumlah(),
             'metode'     => self::METODE,
-            'rekening'   => self::REKENING,
+            'rekening'   => self::rekening(),
             'bisaKirim'  => !self::sudahAda($daftar),
         ]);
     }
@@ -44,7 +58,7 @@ class PembayaranController extends PesertaBaseController {
             flash($h['pesan'], 'err');
             redirect('index.php?c=pembayaran&a=index');
         }
-        Pembayaran::tambah((int)$d['id_pendaftaran'], self::JUMLAH, $metode, $h['nama']);
+        Pembayaran::tambah((int)$d['id_pendaftaran'], self::jumlah(), $metode, $h['nama']);
         flash('Bukti pembayaran terkirim. Menunggu verifikasi bendahara.');
         redirect('index.php?c=pembayaran&a=index');
     }

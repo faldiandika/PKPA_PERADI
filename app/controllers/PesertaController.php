@@ -115,7 +115,7 @@ class PesertaController extends PesertaBaseController {
                     hapusFile('pas_foto', $peserta['pas_foto']);
                 }
                 flash('Biodata berhasil disimpan.');
-                redirect('index.php?c=peserta&a=biodata');
+                redirect('index.php?c=peserta&a=dashboard');
             }
         }
 
