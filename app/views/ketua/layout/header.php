@@ -10,6 +10,7 @@
 <nav class="menu">
     <strong>PKPA PERADI</strong>
     <a href="index.php?c=ketua&a=dashboard">Dashboard</a>
+    <a href="index.php?c=ketua&a=peserta">Peserta</a>
     <a class="keluar" href="index.php?c=auth&a=logout">Logout</a>
 </nav>
 <main class="konten">
