@@ -13,7 +13,25 @@ class BendaharaController extends BendaharaBaseController {
     }
 
     public function pembayaran(): void {
-        $this->renderBendahara('pembayaran', ['daftar' => Pembayaran::semua(), 'opsi' => $this->opsi()]);
+        $q      = trim($_GET['q'] ?? '');
+        $status = $_GET['status'] ?? '';
+        $opsi   = $this->opsi();
+        $daftar = Pembayaran::semua();
+
+        if ($q !== '') {
+            $daftar = array_values(array_filter($daftar, function ($b) use ($q) {
+                return mb_stripos((string)($b['nama_lengkap'] ?? ''), $q) !== false;
+            }));
+        }
+        if ($status !== '' && in_array($status, $opsi, true)) {
+            $daftar = array_values(array_filter($daftar, fn($b) => $b['status_pembayaran'] === $status));
+        } else {
+            $status = '';
+        }
+
+        $this->renderBendahara('pembayaran', [
+            'daftar' => $daftar, 'opsi' => $opsi, 'q' => $q, 'status' => $status,
+        ]);
     }
 
     public function ubah(): void {

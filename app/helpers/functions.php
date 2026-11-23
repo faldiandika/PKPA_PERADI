@@ -65,9 +65,13 @@ function wajibRole(string $role): void {
         flash('Anda tidak berhak membuka halaman itu.', 'err');
         redirect(urlDashboard($u['role']));
     }
+}
 
-    function badge(?string $s): string {
-        $s = (string)$s;
-        return $s === '' ? '-' : '<span class="badge ' . e($s) . '">' . e($s) . '</span>';
-    }
+function badge(?string $s): string {
+    $s = (string)$s;
+    return $s === '' ? '-' : '<span class="badge ' . e($s) . '">' . e($s) . '</span>';
+}
+
+function sudahLogin(): bool {
+    return !empty($_SESSION['user_id']);
 }

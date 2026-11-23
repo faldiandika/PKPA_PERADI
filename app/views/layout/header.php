@@ -8,8 +8,9 @@
 </head>
 <body>
 <nav class="menu">
-    <strong>PKPA PERADI</strong>
-    <a href="index.php?c=auth&a=login">Login</a>
+    <a href="index.php" class="brand"><img class="logo" src="public/img/logo-peradi.png" alt="PERADI"></a>
+    <a href="index.php?c=auth&a=registrasi">Daftar</a>
+    <a class="keluar" href="index.php?c=auth&a=login">Login</a>
 </nav>
 <main class="konten">
 <?php if ($f = flash()): ?>

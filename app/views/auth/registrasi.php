@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registrasi - PKPA Peradi</title>
-    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="public/css/style.css?v=<?= filemtime(__DIR__ . '/../../../public/css/style.css') ?>">
 </head>
 <body class="login-page">
 <form class="login-box" method="post" action="index.php?c=auth&a=registrasi">
+    <img class="logo" src="public/img/" alt="PERADI" onerror="this.style.display='none'">
     <h1>Registrasi Peserta</h1>
+    <p class="sub">PKPA DPC PERADI Kota Palu</p>
     <?php if ($error): ?><p class="alert err"><?= e($error) ?></p><?php endif; ?>
     <?= csrf_field() ?>
     <label>Nama</label>
@@ -21,6 +23,7 @@
     <input type="password" name="konfirmasi" required>
     <button class="btn" type="submit">Daftar</button>
     <p class="tautan">Sudah punya akun? <a href="index.php?c=auth&a=login">Login</a></p>
+    <p class="tautan"><a href="index.php">&laquo; Kembali ke beranda</a></p>
 </form>
 </body>
 </html>

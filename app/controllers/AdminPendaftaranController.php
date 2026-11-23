@@ -14,7 +14,28 @@ class AdminPendaftaranController extends AdminBaseController {
     }
 
     public function index(): void {
-        $this->renderAdmin('pendaftaran', ['daftar' => Pendaftaran::semua()]);
+        $q      = trim($_GET['q'] ?? '');
+        $status = $_GET['status'] ?? '';
+        $opsi   = $this->opsiPendaftaran();
+        $daftar = Pendaftaran::semua();
+
+        if ($q !== '') {
+            $daftar = array_values(array_filter($daftar, function ($r) use ($q) {
+                foreach (['nama_lengkap', 'nik', 'periode'] as $k) {
+                    if (mb_stripos((string)($r[$k] ?? ''), $q) !== false) return true;
+                }
+                return false;
+            }));
+        }
+        if ($status !== '' && in_array($status, $opsi, true)) {
+            $daftar = array_values(array_filter($daftar, fn($r) => $r['status_pendaftaran'] === $status));
+        } else {
+            $status = '';
+        }
+
+        $this->renderAdmin('pendaftaran', [
+            'daftar' => $daftar, 'q' => $q, 'status' => $status, 'opsi' => $opsi,
+        ]);
     }
 
     public function detail(): void {

@@ -14,3 +14,8 @@
     <?php if (!$sumpah): ?><p>Belum ada pengajuan.</p><?php endif; ?>
     <p><a href="index.php?c=adminsumpah&a=index">Periksa berkas sumpah</a></p>
 </div>
+<div class="kartu">
+    <h3>Backup data</h3>
+    <p>Unduh salinan seluruh data (struktur dan isi tabel) dalam file SQL. Simpan di tempat aman secara berkala.</p>
+    <a class="btn" href="index.php?c=admin&a=backup">Unduh backup</a>
+</div>

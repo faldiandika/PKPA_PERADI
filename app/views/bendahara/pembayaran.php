@@ -1,4 +1,20 @@
 <h2>Verifikasi Pembayaran</h2>
+
+<form method="get" action="index.php" class="inline" style="margin-bottom:12px">
+    <input type="hidden" name="c" value="bendahara">
+    <input type="hidden" name="a" value="pembayaran">
+    <input type="text" name="q" value="<?= e($q) ?>" placeholder="Cari nama peserta" style="min-width:220px">
+    <select name="status">
+        <option value="">Semua status</option>
+        <?php foreach ($opsi as $o): ?>
+            <option value="<?= e($o) ?>" <?= $o === $status ? 'selected' : '' ?>><?= e($o) ?></option>
+        <?php endforeach; ?>
+    </select>
+    <button type="submit">Cari</button>
+    <?php if ($q !== '' || $status !== ''): ?>
+        <a href="index.php?c=bendahara&a=pembayaran">Reset</a>
+    <?php endif; ?>
+</form>
 <table class="tabel">
     <tr><th>Peserta</th><th>Tanggal</th><th>Jumlah</th><th>Metode</th><th>Bukti</th><th>Status</th><th>Ubah</th></tr>
     <?php foreach ($daftar as $b): ?>
@@ -23,5 +39,5 @@
         </td>
     </tr>
     <?php endforeach; ?>
-    <?php if (!$daftar): ?><tr><td colspan="7">Belum ada pembayaran.</td></tr><?php endif; ?>
+    <?php if (!$daftar): ?><tr><td colspan="7"><?= ($q !== '' || $status !== '') ? 'Tidak ada data yang cocok.' : 'Belum ada pembayaran.' ?></td></tr><?php endif; ?>
 </table>

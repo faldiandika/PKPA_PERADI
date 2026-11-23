@@ -4,6 +4,11 @@ session_start();
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/app/helpers/functions.php';
 
+if (!isset($_GET['c']) && !isset($_GET['a']) && empty($_SESSION['user_id'])) {
+    require __DIR__ . '/app/views/home.php';
+    exit;
+}
+
 $c = $_GET['c'] ?? 'auth';
 $a = $_GET['a'] ?? 'login';
 

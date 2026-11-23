@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PKPA PERADI - Peserta</title>
-    <link rel="stylesheet" href="public/css/style.css">
-</head>
+    <link rel="stylesheet" href="public/css/style.css?v=<?= filemtime(__DIR__ . '/../../../../public/css/style.css') ?>"></head>
 <body>
 <nav class="menu">
-    <strong>PKPA PERADI</strong>
-    <a href="index.php?c=peserta&a=dashboard">Dashboard</a>
-    <a href="index.php?c=peserta&a=biodata">Biodata</a>
+    <a href="index.php" class="brand"><img class="logo" src="public/img/" alt="PERADI" onerror="this.style.display='none'"></a>    <a href="index.php?c=peserta&a=biodata">Biodata</a>
     <a href="index.php?c=pendaftaran&a=index">Pendaftaran</a>
     <a href="index.php?c=dokumen&a=index">Dokumen</a>
     <a href="index.php?c=pembayaran&a=index">Pembayaran</a>
