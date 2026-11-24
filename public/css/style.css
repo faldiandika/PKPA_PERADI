@@ -528,3 +528,84 @@ body.js .reveal.tampil { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
     .beranda .blok::before { animation: none; }
 }
+nav.menu form:has(button.keluar) {
+    margin-left: auto;
+}
+
+nav.menu button.keluar {
+    background: #fff;
+    color: var(--navy);
+    border: 0;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+nav.menu button.keluar:hover {
+    background: var(--biru-muda);
+    color: var(--navy);
+    box-shadow: none;
+}
+
+@media (max-width: 700px) {
+    nav.menu form:has(button.keluar) {
+        margin-left: 0;
+    }
+}
+
+/* Memadatkan tampilan halaman Registrasi */
+.registrasi-page .auth-wrap {
+    min-height: calc(100vh - 32px);
+}
+
+.registrasi-page .auth-panel {
+    padding: 28px 36px;
+}
+
+.registrasi-page .auth-panel h2 {
+    margin-bottom: 10px;
+}
+
+.registrasi-page .auth-panel ul {
+    margin-top: 20px;
+    gap: 14px;
+}
+
+.registrasi-page .login-box {
+    padding: 24px 40px;
+}
+
+.registrasi-page .login-box h1 {
+    margin-bottom: 4px;
+}
+
+.registrasi-page .login-box .sub {
+    margin-bottom: 16px;
+}
+
+.registrasi-page .login-box label {
+    margin-bottom: 5px;
+}
+
+.registrasi-page .login-box input {
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+
+.registrasi-page .login-box .pw {
+    margin-bottom: 10px;
+}
+
+.registrasi-page .login-box .btn {
+    margin-top: 12px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+}
+
+.registrasi-page .login-box .tautan {
+    margin-top: 12px;
+    margin-bottom: 0;
+}

@@ -70,10 +70,13 @@ class AdminSumpahController extends AdminBaseController {
             redirect($back);
         }
 
+        $u = userLogin();
+
         PengajuanSumpah::setStatus(
             $id,
             $st,
-            trim($_POST['catatan'] ?? '')
+            trim($_POST['catatan'] ?? ''),
+            (int)$u['id_user']
         );
 
         flash('Status pemberkasan diperbarui.');
@@ -90,9 +93,12 @@ class AdminSumpahController extends AdminBaseController {
             redirect($back);
         }
 
+        $u = userLogin();
+
         DokumenSumpah::setStatus(
             (int)($_POST['id_dokumen_sumpah'] ?? 0),
-            $st
+            $st,
+            (int)$u['id_user']
         );
 
         flash('Status berkas diperbarui.');

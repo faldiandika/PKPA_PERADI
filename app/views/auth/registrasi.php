@@ -6,13 +6,13 @@
     <title>Registrasi - PKPA Peradi</title>
     <link rel="stylesheet" href="public/css/style.css?v=<?= filemtime(__DIR__ . '/../../../public/css/style.css') ?>">
 </head>
-<body class="login-page">
+<body class="login-page registrasi-page">
 <div class="auth-wrap">
 
     <aside class="auth-panel">
         <div class="auth-ikon">⚖️</div>
         <h2>Pendaftaran PKPA Online</h2>
-        <p>Pendidikan Khusus Profesi Advokat<br>DPC PERADI Kota Palu</p>
+        <p>Pendidikan Khusus Profesi Advokat<br>DPC PERADI FBI Kota Palu</p>
         <ul>
             <li>Buat akun, lalu lengkapi biodata dan pas foto</li>
             <li>Ajukan pendaftaran pada periode yang dibuka</li>
@@ -22,7 +22,7 @@
 
     <form class="login-box" method="post" action="index.php?c=auth&a=registrasi">
         <h1>Registrasi Peserta</h1>
-        <p class="sub">PKPA DPC PERADI Kota Palu</p>
+        <p class="sub">PKPA DPC PERADI FBI Kota Palu</p>
         <?php if ($error): ?><p class="alert err"><?= e($error) ?></p><?php endif; ?>
         <?= csrf_field() ?>
         <label>Nama</label>

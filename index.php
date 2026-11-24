@@ -1,5 +1,17 @@
 <?php
 date_default_timezone_set('Asia/Makassar');
+
+$isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => $isHttps,
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+
 session_start();
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/app/helpers/functions.php';
@@ -24,6 +36,7 @@ $peta = [
     'adminsumpah'       => 'AdminSumpahController',
     'bendahara'         => 'BendaharaController',
     'ketua'             => 'KetuaController',
+    'pengaturan' => 'PengaturanController',
 ];
 
 if (!isset($peta[$c])) {

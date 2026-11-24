@@ -31,8 +31,19 @@ class PengajuanSumpah {
         return $r ?: null;
     }
 
-    public static function setStatus(int $id, string $status, string $catatan): void {
-        getDB()->prepare('UPDATE pengajuan_sumpah SET status_pemberkasan = ?, catatan = ? WHERE id_pengajuan_sumpah = ?')
-            ->execute([$status, $catatan, $id]);
+    public static function setStatus(
+        int $id,
+        string $status,
+        string $catatan,
+        int $idAdmin
+    ): void {
+        getDB()->prepare(
+            'UPDATE pengajuan_sumpah
+             SET status_pemberkasan = ?,
+                 catatan = ?,
+                 verified_by = ?,
+                 verified_at = NOW()
+             WHERE id_pengajuan_sumpah = ?'
+        )->execute([$status, $catatan, $idAdmin, $id]);
     }
 }

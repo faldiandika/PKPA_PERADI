@@ -54,6 +54,8 @@ class AuthController extends Controller {
                 $u = User::attempt(trim($_POST['email'] ?? ''), $_POST['password'] ?? '');
                 if ($u) {
                     session_regenerate_id(true);
+                    $_SESSION['csrf'] = bin2hex(random_bytes(32));
+
                     $_SESSION['user_id'] = $u['id_user'];
                     $_SESSION['nama']    = $u['nama'];
                     $_SESSION['role']    = $u['role'];
@@ -67,7 +69,30 @@ class AuthController extends Controller {
     }
 
     public function logout(): void {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !csrf_valid()) {
+            http_response_code(403);
+            exit('Permintaan tidak valid.');
+        }
+
         $_SESSION = [];
+
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+
+            setcookie(
+                session_name(),
+                '',
+                [
+                    'expires' => time() - 42000,
+                    'path' => $params['path'],
+                    'domain' => $params['domain'],
+                    'secure' => $params['secure'],
+                    'httponly' => $params['httponly'],
+                    'samesite' => $params['samesite']
+                ]
+            );
+        }
+
         session_destroy();
         redirect('index.php?c=auth&a=login');
     }

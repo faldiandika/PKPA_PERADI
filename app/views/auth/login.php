@@ -12,7 +12,7 @@
     <aside class="auth-panel">
         <div class="auth-ikon">⚖️</div>
         <h2>Pendaftaran PKPA Online</h2>
-        <p>Pendidikan Khusus Profesi Advokat<br>DPC PERADI Kota Palu</p>
+        <p>Pendidikan Khusus Profesi Advokat<br>DPC PERADI FBI Kota Palu</p>
         <ul>
             <li>Daftar dan isi biodata secara online</li>
             <li>Unggah dokumen dan bukti pembayaran</li>
@@ -22,7 +22,7 @@
 
     <form class="login-box" method="post" action="index.php?c=auth&a=login">
         <h1>Login</h1>
-        <p class="sub">PKPA DPC PERADI Kota Palu</p>
+        <p class="sub">PKPA DPC PERADI FBI Kota Palu</p>
         <?php if ($pesan = flash()): ?><p class="alert <?= e($pesan['tipe']) ?>"><?= e($pesan['pesan']) ?></p><?php endif; ?>
         <?php if ($error): ?><p class="alert err"><?= e($error) ?></p><?php endif; ?>
         <?= csrf_field() ?>

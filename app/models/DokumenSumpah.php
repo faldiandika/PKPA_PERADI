@@ -48,17 +48,34 @@ class DokumenSumpah {
         getDB()->prepare($sql)->execute([$nama, $path, $id]);
     }
 
-    public static function setStatus(int $id, string $status): void {
+    public static function setStatus(
+        int $id,
+        string $status,
+        int $idAdmin
+    ): void {
         $c = Ref::statusCol('dokumen_sumpah');
         if (!$c) return;
 
         $sql = "UPDATE dokumen_sumpah SET `$c` = ?";
 
+        if (Ref::hasCol('dokumen_sumpah', 'verified_by')) {
+            $sql .= ', verified_by = ?';
+        }
+
         if (Ref::hasCol('dokumen_sumpah', 'verified_at')) {
             $sql .= ', verified_at = NOW()';
         }
 
-        getDB()->prepare($sql . ' WHERE id_dokumen_sumpah = ?')
-            ->execute([$status, $id]);
+        $sql .= ' WHERE id_dokumen_sumpah = ?';
+
+        $params = [$status];
+
+        if (Ref::hasCol('dokumen_sumpah', 'verified_by')) {
+            $params[] = $idAdmin;
+        }
+
+        $params[] = $id;
+
+        getDB()->prepare($sql)->execute($params);
     }
 }

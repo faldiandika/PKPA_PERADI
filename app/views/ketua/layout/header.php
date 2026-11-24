@@ -1,3 +1,4 @@
+
 <?php
 $aksiAktif = $_GET['a'] ?? 'dashboard';
 ?>
@@ -7,7 +8,8 @@ $aksiAktif = $_GET['a'] ?? 'dashboard';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PKPA PERADI - Ketua</title>
-    <link rel="stylesheet" href="public/css/style.css?v=<?= filemtime(__DIR__ . '/../../../../public/css/style.css') ?>"></head>
+    <link rel="stylesheet" href="public/css/style.css?v=<?= filemtime(__DIR__ . '/../../../../public/css/style.css') ?>">
+</head>
 <body>
 <nav class="menu">
     <a href="index.php" class="brand">
@@ -16,7 +18,14 @@ $aksiAktif = $_GET['a'] ?? 'dashboard';
     </a>
     <a href="index.php?c=ketua&a=dashboard" class="<?= $aksiAktif === 'dashboard' ? 'aktif' : '' ?>">Beranda</a>
     <a href="index.php?c=ketua&a=peserta" class="<?= $aksiAktif === 'peserta' ? 'aktif' : '' ?>">Daftar Peserta</a>
-    <a class="keluar" href="index.php?c=auth&a=logout">Logout</a>
+    <a href="index.php?c=pengaturan&a=index"
+    class="<?= ($_GET['c'] ?? '') === 'pengaturan' ? 'aktif' : '' ?>">
+    Pengaturan
+    </a>
+    <form action="index.php?c=auth&a=logout" method="POST" style="display:inline;">
+        <?= csrf_field() ?>
+        <button type="submit" class="keluar">Logout</button>
+    </form>
 </nav>
 <main class="konten">
 <?php if ($f = flash()): ?>

@@ -1,10 +1,13 @@
+
 <?php
 $ctrlAktif = $_GET['c'] ?? '';
 $aksiAktif = $_GET['a'] ?? '';
+
 $menuAktif = function (string $c, ?string $a = null) use ($ctrlAktif, $aksiAktif) {
     if ($ctrlAktif !== $c) return '';
     return ($a === null || $aksiAktif === $a) ? 'aktif' : '';
 };
+
 $dashAktif = ($ctrlAktif === 'peserta' && $aksiAktif !== 'biodata') ? 'aktif' : '';
 ?>
 <!DOCTYPE html>
@@ -13,7 +16,8 @@ $dashAktif = ($ctrlAktif === 'peserta' && $aksiAktif !== 'biodata') ? 'aktif' : 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PKPA PERADI - Peserta</title>
-    <link rel="stylesheet" href="public/css/style.css?v=<?= filemtime(__DIR__ . '/../../../../public/css/style.css') ?>"></head>
+    <link rel="stylesheet" href="public/css/style.css?v=<?= filemtime(__DIR__ . '/../../../../public/css/style.css') ?>">
+</head>
 <body>
 <nav class="menu">
     <a href="index.php" class="brand">
@@ -26,7 +30,14 @@ $dashAktif = ($ctrlAktif === 'peserta' && $aksiAktif !== 'biodata') ? 'aktif' : 
     <a href="index.php?c=dokumen&a=index" class="<?= $menuAktif('dokumen') ?>">Dokumen</a>
     <a href="index.php?c=pembayaran&a=index" class="<?= $menuAktif('pembayaran') ?>">Pembayaran</a>
     <a href="index.php?c=pengajuansumpah&a=index" class="<?= $menuAktif('pengajuansumpah') ?>">Pengajuan Sumpah</a>
-    <a class="keluar" href="index.php?c=auth&a=logout">Logout</a>
+    <a href="index.php?c=pengaturan&a=index"
+    class="<?= $menuAktif('pengaturan') ?>">
+    Pengaturan
+    </a>
+    <form action="index.php?c=auth&a=logout" method="POST" style="display:inline;">
+        <?= csrf_field() ?>
+        <button type="submit" class="keluar">Logout</button>
+    </form>
 </nav>
 <main class="konten">
 <?php if ($f = flash()): ?>

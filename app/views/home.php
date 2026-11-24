@@ -16,7 +16,7 @@ $biaya = 'Rp ' . number_format((int)$cfg['biaya'], 0, ',', '.');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PKPA DPC PERADI Kota Palu</title>
+    <title>PKPA DPC PERADI FBI Kota Palu</title>
 <link rel="stylesheet" href="public/css/style.css?v=<?= filemtime(__DIR__ . '/../../public/css/style.css') ?>"></head>
 <body class="beranda">
 
@@ -33,7 +33,7 @@ $biaya = 'Rp ' . number_format((int)$cfg['biaya'], 0, ',', '.');
 
 <header class="hero hero-baru">
     <div class="hero-isi">
-        <span class="hero-label">DPC PERADI Kota Palu</span>
+        <span class="hero-label">DPC PERADI FBI Kota Palu</span>
         <h1>Pendaftaran PKPA Online</h1>
         <p>Pendidikan Khusus Profesi Advokat. Daftar, unggah berkas, dan pantau status verifikasi dari satu akun.</p>
         <div class="aksi">
@@ -127,7 +127,7 @@ $biaya = 'Rp ' . number_format((int)$cfg['biaya'], 0, ',', '.');
     <a class="btn" href="index.php?c=auth&a=registrasi">Daftar Akun</a>
 </section>
 
-<footer class="kaki">&copy; <?= date('Y') ?> DPC PERADI Kota Palu</footer>
+<footer class="kaki">&copy; <?= date('Y') ?> DPC PERADI FBI Kota Palu</footer>
 
 <script>
 document.body.classList.add('js');

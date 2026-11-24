@@ -15,7 +15,14 @@
     <a href="index.php?c=admin&a=dashboard" class="<?= $cAktif === 'admin' ? 'aktif' : '' ?>">Beranda</a>
     <a href="index.php?c=adminpendaftaran&a=index" class="<?= $cAktif === 'adminpendaftaran' ? 'aktif' : '' ?>">Daftar PKPA</a>
     <a href="index.php?c=adminsumpah&a=index" class="<?= $cAktif === 'adminsumpah' ? 'aktif' : '' ?>">Pengajuan Sumpah</a>
-    <a class="keluar" href="index.php?c=auth&a=logout">Logout</a>
+    <a href="index.php?c=pengaturan&a=index"
+    class="<?= $cAktif === 'pengaturan' ? 'aktif' : '' ?>">
+    Pengaturan
+    </a>
+    <form action="index.php?c=auth&a=logout" method="POST" style="display:inline;">
+    <?= csrf_field() ?>
+    <button type="submit" class="keluar">Logout</button>
+    </form>
 </nav>
 <main class="konten">
 <?php if ($f = flash()): ?>
